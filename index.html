@@ -1,15 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu bản thân | Vũ Tiến Mạnh</title>
+    <style>
+        /* Phần CSS này giúp trang web đẹp hơn mà không cần file riêng */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #007bff;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .job-title {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .about {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        .social-links a {
+            text-decoration: none;
+            color: #fff;
+            background: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .social-links a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Personal Introduction Website</title>
-    </head>
+<div class="container">
+    <img src="https://via.placeholder.com/150" alt="Avatar" class="profile-img">
+    
+    <h1>Chào mọi người, mình là Mạnh! 👋</h1>
+    <p class="job-title">Sinh viên & Web Developer Future</p>
 
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
-  
+    <div class="about">
+        <h3>Giới thiệu</h3>
+        <p>Hiện tại mình đang học lập trình web. Đây là trang Portfolio đầu tiên mình triển khai trên GitHub Pages dựa trên thiết kế từ Figma.</p>
+        
+        <h3>Kỹ năng</h3>
+        <ul>
+            <li>Thiết kế giao diện (Figma)</li>
+            <li>HTML5 & CSS3</li>
+            <li>Sử dụng Git & GitHub</li>
+        </ul>
+    </div>
+
+    <div class="social-links">
+        <a href="https://github.com/vutienmanh123plhd-wq" target="_blank">Ghé thăm GitHub của mình</a>
+    </div>
+</div>
+
+</body>
+</html>
