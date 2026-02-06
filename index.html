@@ -3,88 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giới thiệu bản thân | Vũ Tiến Mạnh</title>
+    <title>Quản Lý Sinh Viên</title>
     <style>
-        /* Phần CSS này giúp trang web đẹp hơn mà không cần file riêng */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 600px;
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid #007bff;
-            margin-bottom: 20px;
-        }
-        h1 {
-            color: #007bff;
-            margin-bottom: 10px;
-        }
-        .job-title {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        .about {
-            text-align: left;
-            margin-bottom: 30px;
-        }
-        .social-links a {
-            text-decoration: none;
-            color: #fff;
-            background: #007bff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .social-links a:hover {
-            background: #0056b3;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-group { margin-top: 10px; display: flex; gap: 10px; }
+        button { padding: 10px 15px; cursor: pointer; border: none; border-radius: 4px; color: white; }
+        .btn-add { background-color: #28a745; }
+        .btn-update { background-color: #007bff; display: none; }
+        .btn-cancel { background-color: #6c757d; display: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn-edit { background-color: #ffc107; color: black; padding: 5px 10px; }
+        .btn-delete { background-color: #dc3545; color: white; padding: 5px 10px; margin-left: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <img src="https://via.placeholder.com/150" alt="Avatar" class="profile-img">
+    <h2>Quản Lý Danh Sách Sinh Viên</h2>
     
-    <h1>Chào mọi người, mình là Mạnh! 👋</h1>
-    <p class="job-title">Sinh viên & Web Developer Future</p>
-
-    <div class="about">
-        <h3>Giới thiệu</h3>
-        <p>Hiện tại mình đang học lập trình web. Đây là trang Portfolio đầu tiên mình triển khai trên GitHub Pages dựa trên thiết kế từ Figma.</p>
+    <!-- Form nhập liệu -->
+    <div id="student-form">
+        <input type="hidden" id="edit-index">
+        <div class="form-group">
+            <label>Mã Sinh Viên:</label>
+            <input type="text" id="studentID" placeholder="Nhập mã SV (VD: B20DCCN001)">
+        </div>
+        <div class="form-group">
+            <label>Họ và Tên:</label>
+            <input type="text" id="fullName" placeholder="Nhập họ tên">
+        </div>
+        <div class="form-group">
+            <label>Ngày sinh:</label>
+            <input type="date" id="dob">
+        </div>
+        <div class="form-group">
+            <label>Lớp học:</label>
+            <input type="text" id="className" placeholder="Nhập tên lớp">
+        </div>
+        <div class="form-group">
+            <label>Điểm GPA:</label>
+            <input type="number" step="0.1" id="gpa" placeholder="Nhập điểm GPA (0-4.0)">
+        </div>
         
-        <h3>Kỹ năng</h3>
-        <ul>
-            <li>Thiết kế giao diện (Figma)</li>
-            <li>HTML5 & CSS3</li>
-            <li>Sử dụng Git & GitHub</li>
-        </ul>
+        <div class="btn-group">
+            <button id="add-btn" class="btn-add" onclick="handleAddStudent()">Thêm sinh viên</button>
+            <button id="update-btn" class="btn-update" onclick="handleUpdateStudent()">Cập nhật</button>
+            <button id="cancel-btn" class="btn-cancel" onclick="resetForm()">Hủy</button>
+        </div>
     </div>
 
-    <div class="social-links">
-        <a href="https://github.com/vutienmanh123plhd-wq" target="_blank">Ghé thăm GitHub của mình</a>
-    </div>
+    <hr>
+
+    <!-- Bảng hiển thị -->
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Mã SV</th>
+                <th>Họ Tên</th>
+                <th>Ngày Sinh</th>
+                <th>Lớp</th>
+                <th>GPA</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody id="studentList">
+            <!-- Dữ liệu sẽ đổ vào đây -->
+        </tbody>
+    </table>
 </div>
+
+<script>
+    // Định nghĩa Lớp đối tượng Sinh viên (OOP)
+    class Student {
+        constructor(id, name, dob, className, gpa) {
+            this.id = id;
+            this.name = name;
+            this.dob = dob;
+            this.className = className;
+            this.gpa = parseFloat(gpa);
+        }
+
+        // Phương thức cập nhật thông tin (Yêu cầu đề bài)
+        updateInfo(name, dob, className, gpa) {
+            this.name = name;
+            this.dob = dob;
+            this.className = className;
+            this.gpa = parseFloat(gpa);
+        }
+    }
+
+    // Danh sách sinh viên lưu trữ trong mảng
+    let students = [];
+
+    // Hàm lấy dữ liệu từ Form
+    function getFormData() {
+        return {
+            id: document.getElementById('studentID').value.trim(),
+            name: document.getElementById('fullName').value.trim(),
+            dob: document.getElementById('dob').value,
+            className: document.getElementById('className').value.trim(),
+            gpa: document.getElementById('gpa').value
+        };
+    }
+
+    // Hàm Thêm sinh viên
+    function handleAddStudent() {
+        const data = getFormData();
+        if (!data.id || !data.name || !data.dob || !data.className || !data.gpa) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        // Kiểm tra mã SV trùng
+        if (students.some(s => s.id === data.id)) {
+            alert("Mã sinh viên này đã tồn tại!");
+            return;
+        }
+
+        const newStudent = new Student(data.id, data.name, data.dob, data.className, data.gpa);
+        students.push(newStudent);
+        renderTable();
+        resetForm();
+    }
+
+    // Hàm hiển thị bảng
+    function renderTable() {
+        const tbody = document.getElementById('studentList');
+        tbody.innerHTML = '';
+
+        students.forEach((student, index) => {
+            const row = `
+                <tr>
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.dob}</td>
+                    <td>${student.className}</td>
+                    <td>${student.gpa}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editStudent(${index})">Sửa</button>
+                        <button class="btn-delete" onclick="deleteStudent(${index})">Xóa</button>
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    }
+
+    // Hàm chuẩn bị cập nhật (Đổ dữ liệu lên form)
+    function editStudent(index) {
+        const student = students[index];
+        document.getElementById('studentID').value = student.id;
+        document.getElementById('studentID').disabled = true; // Không cho sửa ID
+        document.getElementById('fullName').value = student.name;
+        document.getElementById('dob').value = student.dob;
+        document.getElementById('className').value = student.className;
+        document.getElementById('gpa').value = student.gpa;
+        document.getElementById('edit-index').value = index;
+
+        // Hiển thị nút cập nhật, ẩn nút thêm
+        document.getElementById('add-btn').style.display = 'none';
+        document.getElementById('update-btn').style.display = 'inline-block';
+        document.getElementById('cancel-btn').style.display = 'inline-block';
+    }
+
+    // Hàm xử lý Cập nhật (Sử dụng phương thức updateInfo của Object)
+    function handleUpdateStudent() {
+        const index = document.getElementById('edit-index').value;
+        const data = getFormData();
+
+        if (index !== "") {
+            // Gọi phương thức updateInfo từ đối tượng trong mảng
+            students[index].updateInfo(data.name, data.dob, data.className, data.gpa);
+            renderTable();
+            resetForm();
+        }
+    }
+
+    // Hàm Xóa
+    function deleteStudent(index) {
+        if (confirm("Bạn có chắc chắn muốn xóa sinh viên này?")) {
+            students.splice(index, 1);
+            renderTable();
+        }
+    }
+
+    // Reset Form về trạng thái ban đầu
+    function resetForm() {
+        document.getElementById('studentID').value = '';
+        document.getElementById('studentID').disabled = false;
+        document.getElementById('fullName').value = '';
+        document.getElementById('dob').value = '';
+        document.getElementById('className').value = '';
+        document.getElementById('gpa').value = '';
+        document.getElementById('edit-index').value = '';
+
+        document.getElementById('add-btn').style.display = 'inline-block';
+        document.getElementById('update-btn').style.display = 'none';
+        document.getElementById('cancel-btn').style.display = 'none';
+    }
+</script>
 
 </body>
 </html>
